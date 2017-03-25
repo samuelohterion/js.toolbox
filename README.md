@@ -10,7 +10,7 @@ iterasures.js
 </script>
 ```
 
-[ github ](https://github.com/samuelohterion/codings/blob/master/web/js.tool.box/iterasures.js)
+[ github ](js.toolbox/js.toolbox/iterasures.js)
 this often will be used in further packages as e.g. "statistics" or "multi layer perceptron" or "plot2d".
 # iterasure as closures for iterators on arrays
 ### five commands to handle arrays
