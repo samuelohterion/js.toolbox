@@ -1,0 +1,87 @@
+<!DOCTYPE = HTML>
+<html>
+	<head>
+		<title>
+			simple 2d plotter
+		</title>
+		<script src="../js.tool.box/iterasures.js" type="text/javascript"></script>
+		<script src="../js.tool.box/plot2d.js" type="text/javascript"></script>
+		<link rel="stylesheet" type="text/css" href="simple_plot2d.css">
+	</head>
+	<body>
+		<p>
+			With this plotter you ease can plot a 2d graph in time. Simple enter some function depending on x and y or on r and phi
+			and the amount of line segments that should be used for drawing the function
+		</p>
+
+		<canvas id="cnvs">
+				no html 5 supported
+		</canvas>
+		<p id="out">
+			out
+		</p>
+		<script type="text/javascript">
+			var
+			tm = 0;
+
+			requestAnimationFrame ( loop );
+
+			function loop ( ) {
+
+				tm += 1/60;
+
+				requestAnimationFrame ( loop );
+
+				var
+				dx = .01,
+				x  = seq ( pol ( [ 0, dx * ( Math.exp ( -5 + 20. * Math.sin ( .03 * tm ) ) ) ] ), -500, +501 ),
+				y0  = fun ( sSqr, x ),
+				//( x-a)(x-b)(x-c)=x*x*x-(a+b+c)*x*x+(ab+ac+bc)*x-abc
+				//a=-1, b=0; c=1
+				//1x^3-0x^2-1x-0
+				y1  = fun ( pol ( [ 0, -1, 0, +1 ] ), x ),
+				y2  = fun ( function ( i ) { return .25 * Math.sin ( 10 * Math.PI * i ) / i - 7.85398172; }, x );
+
+				var
+				plot2d = new Plot2d ( "cnvs" );
+
+				plot2d.fcol ( "#ff0000");
+				plot2d.addYX ( y0, x );
+
+				plot2d.fcol ( "#00ff00");
+				plot2d.addYX ( y1, x );
+
+				plot2d.fcol ( "#0000ff");
+				plot2d.addYX ( y2, x );
+
+				plot2d.fnt ( "12pt Calibri" );
+				plot2d.fcol ( "#e0e0e0", "#f0f0f0" );
+				plot2d.grid ( );
+
+				plot2d.draw ( );
+
+				plot2d.fnt ( "48pt Calibri" );
+
+				var
+				mT = plot2d.cntxt.measureText ( "SIMPLE-2D-PLOT" )
+				w  = mT.width,
+				h  = 48;
+
+				plot2d.text ( "SIMPLE-2D-PLOT", ( plot2d.cnvs.width - w ) / 2, ( plot2d.cnvs.height + h ) / 2 );
+
+				var
+				maxY0 = cum ( rMax, y0 ),
+				maxY1 = cum ( rMax, y1 ),
+				maxY2 = cum ( rMax, y2 ),
+				xOfMaxY0 = x [ iof ( rMax, y0 ) ],
+				xOfMaxY1 = x [ iof ( rMax, y1 ) ],
+				xOfMaxY2 = x [ iof ( rMax, y2 ) ];
+
+				document.getElementById ( "out" ).innerHTML =
+				" ( x0, y0 ) : ( " + xOfMaxY0.toFixed( 5 ) + ", " + maxY0.toFixed( 5 ) + " )<br>" +
+				" ( x1, y1 ) : ( " + xOfMaxY1.toFixed( 5 ) + ", " + maxY1.toFixed( 5 ) + " )<br>" +
+				" ( x2, y2 ) : ( " + xOfMaxY2.toFixed( 5 ) + ", " + maxY2.toFixed( 5 ) + " )";
+			}
+		</script>
+	</body>
+</html>

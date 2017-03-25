@@ -1,0 +1,161 @@
+	<!DOCTYPE = HTML>
+	<html>
+		<head>
+			<title>
+				mlp
+			</title>
+			<link rel="stylesheet" type="text/css" href="mlp.css">
+			<script src="https://github.com/samuelohterion/js.toolbox/js.tool.box/iterasures.js" type="text/javascript">
+			</script>
+			<script src="https://github.com/samuelohterion/js.toolbox/js.tool.box/plot2d.js" type="text/javascript">
+			</script>
+			<script src="https://github.com/samuelohterion/js.toolbox/js.tool.box/mlp.js" type="text/javascript">
+			</script>
+		</head>
+		<body>
+
+			<p id='error'>
+				error:
+			</p>
+
+			<canvas id="cnvs" width="640" height="400" style="border : 1px solid #123456; position:relative; width:100%; height:92%; background-color:#e0e0e0">
+	<!--		<canvas id="myCanvas" width="640" height="400" style="border:1px solid #d3d3d3;">-->
+
+				Your browser does not support the HTML5 canvas tag.
+			</canvas>
+
+			<script type="text/javascript">
+
+
+				var
+				bsp = 0,
+				doc = document.getElementById( "error" ),
+				mlp = new MLP ( [ 3, 5, 3, 8 ], 0, 1, 1.1 );
+
+				var
+				p = [
+					[ 0, 0, 0 ],
+					[ 1, 0, 0 ],
+					[ 0, 1, 0 ],
+					[ 1, 1, 0 ],
+					[ 0, 0, 1 ],
+					[ 1, 0, 1 ],
+					[ 0, 1, 1 ],
+					[ 1, 1, 1 ]
+				],
+/*				t = [
+					[ 0, 0 ],
+					[ 0, 1 ],
+					[ 1, 0 ],
+					[ 1 ,1 ],
+					[ 1, 1 ],
+					[ 1, 0 ],
+					[ 0, 1 ],
+					[ 0, 0 ]
+				],
+*/				t = [
+					[ 1, 0, 0, 0, 0, 0, 0, 0 ],
+					[ 0, 1, 0, 0, 0, 0, 0, 0 ],
+					[ 0, 0, 1, 0, 0, 0, 0, 0 ],
+					[ 0, 0, 0, 1, 0, 0, 0, 0 ],
+					[ 0, 0, 0, 0, 1, 0, 0, 0 ],
+					[ 0, 0, 0, 0, 0, 1, 0, 0 ],
+					[ 0, 0, 0, 0, 0, 0, 1, 0 ],
+					[ 0, 0, 0, 0, 0, 0, 0, 1 ]
+				],
+				wdt      = t[ 0 ].length,
+				len      = 1000,
+				curPatId = 0,
+				err      = arr ( wdt, cst ( 10 ) ),
+				cue_err  = arr ( wdt, function ( i ) { return arr ( len, cst ( 0 ) ); } ),
+				cue_x    = arr ( len, pol ( [ 0, 0e0 ] ) ),
+
+				cnvs     = document.getElementById ( "cnvs" ),
+				cntxt    = cnvs.getContext ( "2d" ),
+				col      = [ "#000000", "#0000ff", "#00ff00", "#00ffff", "#ff0000", "#ff00ff",  "#ffff00",  "#ffffff", "black" ],
+				loop     = 0,
+				e_       = 1,
+				paintErr = function ( ) {
+
+					plot = new Plot2d ( "cnvs" );
+					plot.bcol ( "#202020" );
+
+					cue_x   = cue_x.slice ( 1 );
+					cue_x.push ( loop );
+
+					for ( var i = 0; i < wdt; ++ i ) {
+
+						mlp.remember ( p[ i ] );
+
+						mlp.t = t[ i ];
+						e__ = mlp.rms ( );
+						err[ i ] = e__;
+
+						cue_err[ i ] = cue_err[ i ].slice ( 1 );
+						cue_err[ i ].push ( e__ );
+//						cue_err[ i ].push ( Math.log10( e__ ) );
+
+						plot.fcol ( col[ i ] );
+						plot.addYX ( cue_err[ i ], cue_x );
+					}
+
+					doc.innerHTML = ( "Loop: " + loop + "\tRMS: " + e_ );
+
+					plot.fcol (  "#808080", "#404040" );
+					plot.grid ( );
+
+					plot.draw ( true );
+
+					mlp.remember ( p[ bsp ] );
+
+					mlp.plot( plot.cnvs, plot.cntxt, .8, .8, 1, 1 );
+				},
+				doLoops = function ( pI_loops ) {
+
+					for ( var l = 0; l < pI_loops; ++ l ) {
+
+						curPatId = iof ( rMax, err );
+						//curPatId = Math.floor ( wdt * Math.random ( ) );
+
+						mlp.remember ( p[ curPatId ] );
+						mlp.teach ( t[ curPatId ] );
+
+						e_ = mlp.rms ( );
+
+						err[ curPatId ] = e_;
+					}
+					loop += pI_loops;
+				},
+				tm = new Date ( ).getTime ( ),
+				tm2 = new Date ( ).getTime ( ),
+				timer = function ( ) {
+
+					requestAnimationFrame( timer );
+
+					var
+					nw = ( new Date ( ).getTime ( ) - tm ),
+					nw2 = ( new Date ( ).getTime ( ) - tm2 );
+
+					if ( 2000 / 60 < nw ) {
+
+						paintErr ( );
+
+						doLoops ( 1000 );
+
+						tm = new Date ( ).getTime ( );
+					}
+
+					if ( 10000 / 60 < nw2 ) {
+
+						bsp = Math.floor ( wdt * Math.random ( ) );
+
+						tm2 = new Date ( ).getTime ( );
+					}
+				};
+
+				timer ( );
+
+			</script>
+
+		</body>
+	</html>

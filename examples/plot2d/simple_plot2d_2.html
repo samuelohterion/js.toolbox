@@ -1,0 +1,157 @@
+<!DOCTYPE = HTML>
+<html>
+	<head>
+		<title>
+			simple 2d plot
+		</title>
+		<script src="../js.tool.box/iterasures.js" type="text/javascript"></script>
+		<script src="../js.tool.box/plot2d.js" type="text/javascript"></script>
+		<link rel="stylesheet" type="text/css" href="simple_plot2d.css">
+		<style>
+			body {
+				background-color : #383838;
+				color : #a0a0a0;
+			}
+			th, td {
+				background-color : #404040;
+				color : #f0f0f0;
+				padding: 5px;
+				width:50%;
+			}
+			table {
+				background-color : #303030;
+				color : #f0f0f0;
+				padding: 5px;
+				width:50%;
+				height:100%;
+				border-spacing: 5px;
+				text-align: center;
+				position: relative;
+			}
+			canvas {
+				background-color : #ffffff;
+				border: 1px solid black;
+				padding: 5px;
+				width:98%;
+				height:99%;
+				border-spacing: 15px;
+				text-align: center;
+				position: relative;
+			}
+		</style>
+	</head>
+	<body>
+		<table style="width:100%">
+			<tr>
+				<th>r(t)=t</th>
+				<th>r(t)=t^2</th>
+			</tr>
+			<tr>
+				<td>
+					<canvas id="cnvs1">
+						no html 5 supported
+					</canvas>
+				</td>
+				<td>
+					<canvas id="cnvs2">
+						no html 5 supported
+					</canvas>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<p id="lout1">
+						no html 5 supported
+					</p>
+				</td>
+				<td>
+					<p id="lout2">
+						no html 5 supported
+					</p>
+				</td>
+			</tr>
+		</table>
+		<script type="text/javascript">
+
+			var
+			tm = 0;
+
+			requestAnimationFrame ( loop );
+
+			function loop ( ) {
+
+				tm += 1 / 60;
+
+				requestAnimationFrame ( loop );
+
+				var
+				dt = ( 1. - Math.cos ( .01 * tm ) ) * 628 * Math.PI / 628,
+				t  = seq ( pol ( [ 0, dt ] ), 0, 315 ),
+				//t  = seq ( pol ( [ 0, dt * tm ] ), 0, +629 ),
+				r  = fun ( sSet, t );
+				plot2d1 = new Plot2d ( "cnvs1" ),
+				plot2d2 = new Plot2d ( "cnvs2" );
+
+				plot2d1.fcol ( "#0000ff" );
+				plot2d1.addRT ( r, t );
+
+				plot2d1.fcol ( "#aa0000" );
+				plot2d1.addYX ( r, t );
+
+				plot2d1.fcol ( "#a0a0a0", "#f0f0f0" );
+				plot2d1.fnt ( "12pt Calibri" );
+				plot2d1.grid ( );
+
+				plot2d1.draw ( );
+
+				plot2d1.fnt ( "48pt Calibri" );
+
+				var
+				mT = plot2d1.cntxt.measureText ( "r = t" ),
+				w = mT.width,
+				h = 24;
+
+				plot2d1.fcol ( "#000000" );
+
+				plot2d1.text ( "r = t", ( plot2d1.cnvs.width - w ) / 2, ( plot2d1.cnvs.height + h ) / 2 );
+
+
+//				dt = ( 1.01 - Math.cos ( .01 * tm ) ) * 62.8 * Math.PI / 628;
+//				t  = seq ( pol ( [ 0, dt ] ), 0, 629 );
+				r = fun ( sSqr, t );
+
+				plot2d2.bcol ( "#303030" );
+
+				plot2d2.fcol ( "#ffff00" );
+				plot2d2.addRT ( r, t );
+
+				plot2d2.fcol ( "#00aa00" );
+				plot2d2.addYX ( r, t );
+
+				plot2d2.fnt ( "48pt Calibri" );
+				mT = plot2d2.cntxt.measureText ( "r = t²" );
+				w = mT.width;
+				h = 24;
+
+				plot2d2.fcol ( "#a0a0a0" );
+				plot2d2.text ( "r = t²", ( plot2d2.cnvs.width - w ) / 2, ( plot2d2.cnvs.height + h ) / 2 );
+
+				plot2d2.fcol ( "#808080", "#505050" );
+				plot2d2.fnt ( "12pt Calibri" );
+				plot2d2.grid ( );
+
+				plot2d2.draw ( );
+
+				document.getElementById ( "lout1" ).innerHTML =
+				"ymax = " + plot2d1.ymax.toFixed( 5 ) + "<br>" +
+				"( xmin, xmin ) = ( " + plot2d1.xmin.toFixed( 5 ) + ", " + plot2d1.xmax.toFixed( 5 ) + " )<br>" +
+				"ymin = " + plot2d1.ymin.toFixed( 5 );
+
+				document.getElementById ( "lout2" ).innerHTML =
+				"ymax = " + plot2d2.ymax.toFixed( 5 ) + "<br>" +
+				"( xmin, xmin ) = ( " + plot2d2.xmin.toFixed( 5 ) + ", " + plot2d2.xmax.toFixed( 5 ) + " )<br>" +
+				"ymin = " + plot2d2.ymin.toFixed( 5 );
+			}
+		</script>
+	</body>
+</html>
