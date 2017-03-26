@@ -6,7 +6,7 @@ a small collection of maybe useful javascript packages
 iterasures.js
 
 ```
-<script src="https://github.com/samuelohterion/codings/tree/master/web/js.tool.box/iterasures.js" type="text/javascript">
+<script src="https://github.com/samuelohterion/js.toolbox.git/js.toolbox/iterasures.js" type="text/javascript">
 </script>
 ```
 
