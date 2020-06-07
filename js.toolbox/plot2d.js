@@ -162,8 +162,8 @@ Plot2d = function ( cnvs_name ) {
 		xend_ = Math.ceil ( this.xmax / dx_ ),
 		ybeg_ = Math.ceil ( this.ymin / dy_ ),
 		yend_ = Math.ceil ( this.ymax / dy_ ),
-		x_    = rel( rMul, rel ( rSub, rel ( rMul, seq ( sSet, xbeg_, xend_ ), dx_ ), this.xmin ), dx ),
-		y_    = rel( rMul, rel ( rSub, rel ( rMul, seq ( sSet, ybeg_, yend_ ), dy_ ), this.ymin ), dy );
+		x_    = rel ( rMul, rel ( rSub, rel ( rMul, seq ( sSet, xbeg_, xend_ ), dx_ ), this.xmin ), dx ),
+		y_    = rel ( rMul, rel ( rSub, rel ( rMul, seq ( sSet, ybeg_, yend_ ), dy_ ), this.ymin ), dy );
 
 		this.cntxt.strokeStyle = this.fc2;
 
@@ -178,8 +178,8 @@ Plot2d = function ( cnvs_name ) {
 		ybeg_ = Math.ceil ( this.ymin / dy_ );
 		yend_ = Math.ceil ( this.ymax / dy_ );
 		x__   =
-		x_    = rel( rMul, rel ( rSub, rel ( rMul, seq ( sSet, xbeg_, xend_ ), dx_ ), this.xmin ), dx );
-		y_    = rel( rMul, rel ( rSub, rel ( rMul, seq ( sSet, ybeg_, yend_ ), dy_ ), this.ymin ), dy );
+		x_    = rel ( rMul, rel ( rSub, rel ( rMul, seq ( sSet, xbeg_, xend_ ), dx_ ), this.xmin ), dx );
+		y_    = rel ( rMul, rel ( rSub, rel ( rMul, seq ( sSet, ybeg_, yend_ ), dy_ ), this.ymin ), dy );
 
 		this.cntxt.strokeStyle = this.fc1;
 

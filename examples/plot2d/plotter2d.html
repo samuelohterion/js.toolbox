@@ -1,3 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<!-- Required meta tags -->
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+		<!-- Bootstrap CSS -->
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
+		<script src="../../js.toolbox/iterasures.js" type="text/javascript"></script>
+		<script src="../../js.toolbox/plot2d.js" type="text/javascript"></script>
+	</head>
+	<body>
+		<div class="container-fluid">
+			<div class="row">
+				<div class="col-sm-12" style="background-color:#404040; color:#a0a0a0;">
+					<div class="well">
+						<p class="text-center">
+							FUNCTION PLOTTER
+						</p>
+					</div>
+					<div class="row" >
+						<div class="col-sm-12">
+							<canvas class="img-responsive" id="cnvs" style="width:100%;height:auto;display:block;padding:0;margin:0;"">
+								no html 5 supported
+							</canvas>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<script type="text/javascript">
+
+			var
+			t0      = ( new Date( ) ).getTime( ),
+			t       = t0 - t0,
+			yF      = function ( pS_yOfx ) {
+
+				var
+				yOfx = pS_yOfx;
+
+				return function ( s ) {
+
+					var
+					o = eval ( yOfx );
+
+					return o;
+				}
+			},
+			s_      = arr ( n, function ( s ) { return s * ds + smin; } ),
+			x_      = fun ( yF( docX.value ), s_ ),
+			y_      = fun ( yF( docY.value ), s_ ),
+			updt = function ( ) {
+
+				requestAnimationFrame ( updt );
+
+				updPlot2d ( );
+			},
+
+			plot2d = new Plot2d ( "cnvs" ),
+
+			updPlot2d = function ( ) {
+
+				plot2d = new Plot2d ( "cnvs" );
+
+				plot2d.bcol ( "#404040", "202020");
+
+				plot2d.fcol ( "#0000ff" );
+				plot2d.addYX ( y_, x_ );
+
+				plot2d.fcol ( "#808080", "#606060" );
+				plot2d.fnt ( "12pt Calibri" );
+				plot2d.grid ( );
+
+				plot2d.draw ( );
+      };
+
+			requestAnimationFrame( updt );
+
+		</script>
+		<script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
+	</body>
+</html>
+<!--
 <!DOCTYPE = HTML>
 <html>
 	<head>
@@ -29,7 +115,7 @@
 				position: relative;
 			}
 			canvas {
-				background-color : #ffffff;
+				background-color : #202020;
 				border: 1px solid black;
 				padding: 5px;
 				width:98%;
@@ -43,115 +129,126 @@
 	<body>
 		<table style="width:100%">
 			<tr>
-				<th>r(t)=t</th>
-				<th>r(t)=t^2</th>
-			</tr>
-			<tr>
 				<td>
-					<canvas id="cnvs1">
-						no html 5 supported
-					</canvas>
-				</td>
-				<td>
-					<canvas id="cnvs2">
-						no html 5 supported
-					</canvas>
-				</td>
-			</tr>
-			<tr>
-				<td>
-					<p id="lout1">
-						no html 5 supported
+					<p>
+						FUNCTION PLOT
 					</p>
+					<div>
+						offset i0( time )
+						<br>
+						<input id="i0" type="input" value="sin( time )">
+					</div>
+					<div>
+						min( i ) :
+						<br>
+						<input id="iMin" type="input" value="0">
+					</div>
+					<div>
+						max( i ) :
+						<br>
+						<input id="iMax" type="input" value="100">
+					</div>
+					<div>
+						t( i )   :
+						<br>
+						<input id="tOfI" type="input" value="sin( )i">
+					</div>
+					<div>
+						x( t )   :
+						<br>
+						<input id="xOfT" type="input" value="0">
+					</div>
+					<div>
+						y( t )   :
+						<br>
+						<input id="yOfT" type="input" value="0">
+					</div>
 				</td>
 				<td>
-					<p id="lout2">
+					<div>
+						<canvas id="cnvs">
 						no html 5 supported
-					</p>
+						</canvas>
+					</div>
 				</td>
 			</tr>
 		</table>
+
 		<script type="text/javascript">
 
 			var
-			tm = 0;
-
-			requestAnimationFrame ( loop );
-
-			function loop ( ) {
-
-				tm += 1 / 60;
-
-				requestAnimationFrame ( loop );
-
-				var
-				dt = ( 1. - Math.cos ( .01 * tm ) ) * 628 * Math.PI / 628,
-				t  = seq ( pol ( [ 0, dt ] ), 0, 315 ),
-				//t  = seq ( pol ( [ 0, dt * tm ] ), 0, +629 ),
-				r  = fun ( sSet, t );
-				plot2d1 = new Plot2d ( "cnvs1" ),
-				plot2d2 = new Plot2d ( "cnvs2" );
-
-				plot2d1.fcol ( "#0000ff" );
-				plot2d1.addRT ( r, t );
-
-				plot2d1.fcol ( "#aa0000" );
-				plot2d1.addYX ( r, t );
-
-				plot2d1.fcol ( "#a0a0a0", "#f0f0f0" );
-				plot2d1.fnt ( "12pt Calibri" );
-				plot2d1.grid ( );
-
-				plot2d1.draw ( );
-
-				plot2d1.fnt ( "48pt Calibri" );
+			yInp = document.getElementById ( "fct" ),
+			xmin = 0,
+			xmax = 100,
+			xrng = xmax - xmin,
+			irng = 10,
+			x_   = arr ( xrng,  add ( xmin ) ),
+			y_   = arr ( xrng ),
+			yF   = function ( pS_yOfx ) {
 
 				var
-				mT = plot2d1.cntxt.measureText ( "r = t" ),
-				w = mT.width,
-				h = 24;
+				yOfx = pS_yOfx;
 
-				plot2d1.fcol ( "#000000" );
+				return function ( x ) {
 
-				plot2d1.text ( "r = t", ( plot2d1.cnvs.width - w ) / 2, ( plot2d1.cnvs.height + h ) / 2 );
+					var
+					o = eval ( yInp.value );
 
+					return o;
+				}
+			},
+			updt = function ( xmn = xmin, xmx = xmax ) {
 
-//				dt = ( 1.01 - Math.cos ( .01 * tm ) ) * 62.8 * Math.PI / 628;
-//				t  = seq ( pol ( [ 0, dt ] ), 0, 629 );
-				r = fun ( sSqr, t );
+				xmin = xmn;
+				xmax = xmx;
+				xrng = xmax - xmin,
+				x_   = arr ( xrng,  add ( xmin ) ),
+				y_   = fun ( yF ( yInp.value ), x_ );
 
-				plot2d2.bcol ( "#303030" );
+				updPlot2d ( );
+			},
+			chngres = function ( res ) {
 
-				plot2d2.fcol ( "#ffff00" );
-				plot2d2.addRT ( r, t );
+				updt ( parseInt ( xmn ), xmax );
+			},
+			chngxmin = function ( xmn ) {
 
-				plot2d2.fcol ( "#00aa00" );
-				plot2d2.addYX ( r, t );
+				updt ( parseInt ( xmn ), xmax );
+			},
+			chngxmax = function ( xmx ) {
 
-				plot2d2.fnt ( "48pt Calibri" );
-				mT = plot2d2.cntxt.measureText ( "r = t²" );
-				w = mT.width;
-				h = 24;
+				updt ( xmin, parseInt ( xmx ) );
+			},
 
-				plot2d2.fcol ( "#a0a0a0" );
-				plot2d2.text ( "r = t²", ( plot2d2.cnvs.width - w ) / 2, ( plot2d2.cnvs.height + h ) / 2 );
+			plot2d = new Plot2d ( "cnvs" ),
 
-				plot2d2.fcol ( "#808080", "#505050" );
-				plot2d2.fnt ( "12pt Calibri" );
-				plot2d2.grid ( );
+			updPlot2d = function ( ) {
 
-				plot2d2.draw ( );
+				plot2d = new Plot2d ( "cnvs" );
 
-				document.getElementById ( "lout1" ).innerHTML =
-				"ymax = " + plot2d1.ymax.toFixed( 5 ) + "<br>" +
-				"( xmin, xmin ) = ( " + plot2d1.xmin.toFixed( 5 ) + ", " + plot2d1.xmax.toFixed( 5 ) + " )<br>" +
-				"ymin = " + plot2d1.ymin.toFixed( 5 );
+				plot2d.bcol ( "#404040", "202020");
 
-				document.getElementById ( "lout2" ).innerHTML =
-				"ymax = " + plot2d2.ymax.toFixed( 5 ) + "<br>" +
-				"( xmin, xmin ) = ( " + plot2d2.xmin.toFixed( 5 ) + ", " + plot2d2.xmax.toFixed( 5 ) + " )<br>" +
-				"ymin = " + plot2d2.ymin.toFixed( 5 );
-			}
+				plot2d.fcol ( "#0000ff" );
+				plot2d.addYX ( y_, x_ );
+
+				plot2d.fcol ( "#808080", "#606060" );
+				plot2d.fnt ( "12pt Calibri" );
+				plot2d.grid ( );
+
+				plot2d.draw ( );
+
+				document.getElementById ( "out1" ).innerHTML =
+				"ymax = " + plot2d.ymax.toFixed( 5 ) + "<br>" +
+				"( xmin, xmin ) = ( " + plot2d.xmin.toFixed( 5 ) + ", " + plot2d.xmax.toFixed( 5 ) + " )<br>" +
+				"ymin = " + plot2d.ymin.toFixed( 5 );
+
+				document.getElementById ( "out2" ).innerHTML =
+				"ymax = " + plot2d.ymax.toFixed( 5 ) + "<br>" +
+				"( xmin, xmin ) = ( " + plot2d.xmin.toFixed( 5 ) + ", " + plot2d.xmax.toFixed( 5 ) + " )<br>" +
+				"ymin = " + plot2d.ymin.toFixed( 5 );
+			};
+
 		</script>
 	</body>
 </html>
+-->
